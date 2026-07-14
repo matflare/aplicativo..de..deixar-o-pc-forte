@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA Emagrecer</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#1b1b1b;
+color:white;
+margin:0;
+padding:30px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:#2b2b2b;
+padding:20px;
+border-radius:15px;
+}
+
+input,select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#22aa44;
+color:white;
+font-size:18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d8f3a;
+}
+
+.card{
+background:#3a3a3a;
+padding:15px;
+margin-top:20px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>IA Emagrecer</h1>
+
+<input id="idade" type="number" placeholder="Idade">
+
+<input id="peso" type="number" placeholder="Peso (kg)">
+
+<input id="altura" type="number" placeholder="Altura (cm)">
+
+<select id="sexo">
+<option value="M">Masculino</option>
+<option value="F">Feminino</option>
+</select>
+
+<button onclick="calcular()">
+Analisar
+</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<script>
+
+function calcular(){
+
+let idade=Number(document.getElementById("idade").value);
+let peso=Number(document.getElementById("peso").value);
+let altura=Number(document.getElementById("altura").value);
+let sexo=document.getElementById("sexo").value;
+
+if(!idade||!peso||!altura){
+alert("Preencha todos os campos.");
+return;
+}
+
+let imc=(peso/((altura/100)*(altura/100))).toFixed(1);
+
+let texto="";
+
+if(imc<18.5)
+texto="Abaixo do peso";
+else if(imc<25)
+texto="Peso adequado";
+else if(imc<30)
+texto="Sobrepeso";
+else
+texto="Obesidade";
+
+let calorias;
+
+if(sexo=="M"){
+calorias=10*peso+6.25*altura-5*idade+5;
+}else{
+calorias=10*peso+6.25*altura-5*idade-161;
+}
+
+calorias=Math.round(calorias);
+
+let exercicios=[
+["Caminhada rápida","30 minutos"],
+["Corrida leve","20 minutos"],
+["Bicicleta","30 minutos"],
+["Pular corda","15 minutos"],
+["Agachamentos","3 séries de 15"],
+["Flexões","3 séries de 10"],
+["Prancha","3 x 30 segundos"],
+["Polichinelos","10 minutos"],
+["Subir escadas","15 minutos"],
+["Alongamento","10 minutos"]
+];
+
+let html="";
+
+html+="<div class='card'>";
+html+="<h2>Resultado</h2>";
+html+="IMC: "+imc+"<br>";
+html+="Classificação: "+texto+"<br>";
+html+="Calorias estimadas por dia: "+calorias+" kcal";
+html+="</div>";
+
+html+="<div class='card'>";
+html+="<h2>10 Exercícios</h2>";
+
+for(let i=0;i<exercicios.length;i++){
+
+html+="<p><b>"+(i+1)+". "+exercicios[i][0]+"</b><br>";
+html+="Tempo: "+exercicios[i][1]+"</p>";
+
+}
+
+html+="</div>";
+
+document.getElementById("resultado").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>
